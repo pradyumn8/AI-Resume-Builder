@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { dummyResumeData } from '../assets/assets';
 import { User, ArrowLeftIcon, FileText, Briefcase, GraduationCap, FolderIcon, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import PersonalInfoForm from './PersonalInfoForm';
+
 
 const ResumeBuilder = () => {
 
@@ -33,7 +35,7 @@ const ResumeBuilder = () => {
   const [removeBackground, setRemoveBackground] = useState(false);
 
   const sections = [
-    { id: 'personal_info', name: 'Personal Info', icon: User },
+    { id: 'personal', name: 'Personal Info', icon: User },
     { id: 'summary', name: 'Summary', icon: FileText },
     { id: 'experience', name: 'Experience', icon: Briefcase },
     { id: 'education', name: 'Education', icon: GraduationCap },
@@ -82,7 +84,7 @@ const ResumeBuilder = () => {
             {/* Form content */}
             <div className='space-y-6'>
               {activeSection.id === 'personal' && (
-                <div></div>
+                <PersonalInfoForm data={resumeData.personal_info} onChange={(data)=>setResumeData(prev =>({...prev, personal_info: data}))} removeBackground={removeBackground} setRemoveBackground={setRemoveBackground}/>
               )}
             </div>
             <div>
