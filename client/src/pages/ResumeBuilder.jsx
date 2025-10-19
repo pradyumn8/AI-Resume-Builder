@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { dummyResumeData } from '../assets/assets';
 import { User, ArrowLeftIcon, FileText, Briefcase, GraduationCap, FolderIcon, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
-import PersonalInfoForm from './PersonalInfoForm';
+import PersonalInfoForm from '../components/PersonalInfoForm';
+import ResumePreview from '../components/ResumePreview';
+import TemplateSelector from '../components/TemplateSelector';
+import ColorPicker from '../components/ColorPicker';
 
 
 const ResumeBuilder = () => {
@@ -60,41 +63,52 @@ const ResumeBuilder = () => {
         <div className='grid lg:grid-cols-12 gap-8'>
           {/* Left panel - Form */}
           <div className='relative lg:col-span-5 rounded-lg overflow-hidden'>
-          <div className='bg-white rounded-lg shadow-sm border border-gray-200 p-6 pt-1'>
-            {/* progress bar using activeSectionIndex */}
-            <hr className='absolute top-0 left-0 right-0 border-2 border-gray-200'/>
-            <hr className='absolute top-0 left-0 h-1 bg-gradient-to-r from-green-500 to-green-600 border-none transition-all duration-2000'
-            style={{width:`${activeSectionIndex * 100 / (sections.length - 1)}%`}}/>
+            <div className='bg-white rounded-lg shadow-sm border border-gray-200 p-6 pt-1'>
+              {/* progress bar using activeSectionIndex */}
+              <hr className='absolute top-0 left-0 right-0 border-2 border-gray-200' />
+              <hr className='absolute top-0 left-0 h-1 bg-gradient-to-r from-green-500 to-green-600 border-none transition-all duration-2000'
+                style={{ width: `${activeSectionIndex * 100 / (sections.length - 1)}%` }} />
 
-            {/* section Navigation */}
-            <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
-          <div></div>
-          <div className="flex items-center">
-            {activeSectionIndex !== 0 && (
-              <button onClick={()=> setActiveSectionIndex((prevIndex)=>Math.max(prevIndex - 1, 0))} className='flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all' disabled={activeSectionIndex === 0}>
-                <ChevronLeft className='size-4'/> Previous
-              </button>
-            )}
-                    <button onClick={()=> setActiveSectionIndex((prevIndex)=>Math.min(prevIndex + 1, sections.length - 1))} className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all ${activeSectionIndex === sections.length - 1 && 'opacity-50'}`} disabled={activeSectionIndex === sections.length - 1}>
-                Next <ChevronRight className='size-4'/> 
-              </button>
-          </div>
-            </div>
+              {/* section Navigation */}
+              <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
+                <div className='flex items-center gap-2'>
+                  <TemplateSelector selectedTemplate={resumeData.template} onChange={(template) => setResumeData(prev => ({ ...prev, template }))} />
+                    <ColorPicker selectedColor={resumeData.accent_color} onchange={(color)=>setResumeData(prev => ({...prev, accent_color: color}))}/>
+                </div>
+                
+                <div className="flex items-center">
+                  {activeSectionIndex !== 0 && (
+                    <button onClick={() => setActiveSectionIndex((prevIndex) => Math.max(prevIndex - 1, 0))} className='flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all' disabled={activeSectionIndex === 0}>
+                      <ChevronLeft className='size-4' /> Previous
+                    </button>
+                  )}
+                  <button onClick={() => setActiveSectionIndex((prevIndex) => Math.min(prevIndex + 1, sections.length - 1))} className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all ${activeSectionIndex === sections.length - 1 && 'opacity-50'}`} disabled={activeSectionIndex === sections.length - 1}>
+                    Next <ChevronRight className='size-4' />
+                  </button>
+                </div>
+              </div>
 
-            {/* Form content */}
-            <div className='space-y-6'>
-              {activeSection.id === 'personal' && (
-                <PersonalInfoForm data={resumeData.personal_info} onChange={(data)=>setResumeData(prev =>({...prev, personal_info: data}))} removeBackground={removeBackground} setRemoveBackground={setRemoveBackground}/>
-              )}
-            </div>
-            <div>
+              {/* Form content */}
+              <div className='space-y-6'>
+                {activeSection.id === 'personal' && (
+                  <PersonalInfoForm data={resumeData.personal_info} onChange={(data) => setResumeData(prev => ({ ...prev, personal_info: data }))} removeBackground={removeBackground} setRemoveBackground={setRemoveBackground} />
+                )}
+              </div>
+              <div>
 
+              </div>
             </div>
-          </div>
           </div>
 
           {/* Right panel - Resume Preview */}
-          <div></div>
+          <div className='lg:col-span-7 max-lg:mt-6'>
+            <div>
+              {/* -------buttons-------- */}
+            </div>
+
+            {/* ----------resume preview----------- */}
+            <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} classes="mx-auto my-4 shadow-lg" />
+          </div>
         </div>
       </div>
     </div>
