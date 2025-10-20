@@ -4,10 +4,10 @@ import MinimalImageTemplate from './templates/MinimalImageTemplate'
 import MinimalTemplate from './templates/MinimalTemplate'
 import ModernTemplate from './templates/ModernTemplate'
 
-const ResumePreview = ({data, template, accentColor, classes = ''}) => {
+const ResumePreview = ({ data, template, accentColor, classes = '' }) => {
 
     const renderTemplate = () => {
-        switch(template) {
+        switch (template) {
             case 'modern':
                 return <ModernTemplate data={data} accentColor={accentColor} />;
             case 'minimal':
@@ -19,14 +19,14 @@ const ResumePreview = ({data, template, accentColor, classes = ''}) => {
         }
     }
 
-  return (
-    <div className='w-full bg-gray-100'>
-        <div id='resume-preview' className={"border border-gray-200 print:shadow-none print:border-none "+ classes}>
-            {renderTemplate()}
-        </div>
+    return (
+        <div className='w-full bg-gray-100'>
+            <div id='resume-preview' className={"border border-gray-200 print:shadow-none print:border-none " + classes}>
+                {renderTemplate()}
+            </div>
 
-        <style jsx>
-            {`
+            <style jsx>
+                {`
             @page {
                 size: letter;
                 margin: 0;
@@ -56,10 +56,10 @@ const ResumePreview = ({data, template, accentColor, classes = ''}) => {
                 }
             }
                 `}
-        </style>
+            </style>
 
-    </div>
-  )
+        </div>
+    )
 }
 
 export default ResumePreview

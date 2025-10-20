@@ -6,6 +6,7 @@ import PersonalInfoForm from '../components/PersonalInfoForm';
 import ResumePreview from '../components/ResumePreview';
 import TemplateSelector from '../components/TemplateSelector';
 import ColorPicker from '../components/ColorPicker';
+import ProfrssionalSummaryForm from '../components/ProfrssionalSummaryForm';
 
 
 const ResumeBuilder = () => {
@@ -73,7 +74,8 @@ const ResumeBuilder = () => {
               <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
                 <div className='flex items-center gap-2'>
                   <TemplateSelector selectedTemplate={resumeData.template} onChange={(template) => setResumeData(prev => ({ ...prev, template }))} />
-                    <ColorPicker selectedColor={resumeData.accent_color} onchange={(color)=>setResumeData(prev => ({...prev, accent_color: color}))}/>
+
+                    <ColorPicker selectedColor={resumeData.accent_color} onChange={(color)=>setResumeData(prev => ({...prev, accent_color: color}))}/>
                 </div>
                 
                 <div className="flex items-center">
@@ -93,6 +95,10 @@ const ResumeBuilder = () => {
                 {activeSection.id === 'personal' && (
                   <PersonalInfoForm data={resumeData.personal_info} onChange={(data) => setResumeData(prev => ({ ...prev, personal_info: data }))} removeBackground={removeBackground} setRemoveBackground={setRemoveBackground} />
                 )}
+                {activeSection.id === 'summary' && (
+                  <ProfrssionalSummaryForm data={resumeData.professional_summary}
+                  onChange={(data)=> setResumeData(prev=> ({...prev, professional_summary: data}))} setResumeData={setResumeData} />
+                )}
               </div>
               <div>
 
@@ -104,6 +110,7 @@ const ResumeBuilder = () => {
           <div className='lg:col-span-7 max-lg:mt-6'>
             <div>
               {/* -------buttons-------- */}
+
             </div>
 
             {/* ----------resume preview----------- */}

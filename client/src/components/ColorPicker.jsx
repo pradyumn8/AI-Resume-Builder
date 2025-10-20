@@ -1,7 +1,7 @@
 import { Check, Palette } from 'lucide-react'
 import React, { useState } from 'react'
 
-const ColorPicker = ({ selectedColor, onchange }) => {
+const ColorPicker = ({ selectedColor, onChange }) => {
     const colors = [
         { name: 'Blue', value: '#3B82F6' },
         { name: 'Red', value: '#EF4444' },
@@ -24,7 +24,7 @@ const ColorPicker = ({ selectedColor, onchange }) => {
             {isOpen && (
                 <div className='grid grid-cols-4 w-60 gap-2 absolute top-full left-0 right-0 p-3 mt-2 z-10 bg-white rounded-md border border-gray-200 shadow-sm'>
                     {colors.map((color) => (
-                        <div key={color.value} className='relative cursor-pointer group flex flex-col' onClick={() => { onchange(color.value) }}>
+                        <div key={color.value} className='relative cursor-pointer group flex flex-col' onClick={() => { onChange(color.value); setIsOpen(false) }}>
                             <div className="w-12 h-12 rounded-full border-2 border-transparent group-hover:border-black/25 transition-colors" style={{ backgroundColor: color.value }}>
                             </div>
                             {selectedColor === color.value && (
