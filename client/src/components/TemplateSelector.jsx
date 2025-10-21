@@ -5,10 +5,10 @@ const TemplateSelector = ({ selectedTemplate, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const templates = [
-    { id: 'Classic', name: 'Classic', preview: 'A clean, traditional resume format with clear sections and a professional typography.' },
-    { id: 'Modern', name: 'Modern', preview: 'A contemporary design with bold headings, vibrant colors, and a focus on visual hierarchy.' },
-    { id: 'Minimal', name: 'Minimal', preview: 'A sleek, simple layout that emphasizes content over design, using ample white space and subtle accents.' },
-    { id: 'Minimal Image', name: 'Minimal with Image', preview: 'A minimalist design that incorporates a profile image for a personal touch while maintaining a clean layout.' },
+    { id: 'classic', name: 'Classic', preview: 'A clean, traditional resume format with clear sections and a professional typography.' },
+    { id: 'modern', name: 'Modern', preview: 'A contemporary design with bold headings, vibrant colors, and a focus on visual hierarchy.' },
+    { id: 'minimal', name: 'Minimal', preview: 'A sleek, simple layout that emphasizes content over design, using ample white space and subtle accents.' },
+    { id: 'minimal-image', name: 'Minimal with Image', preview: 'A minimalist design that incorporates a profile image for a personal touch while maintaining a clean layout.' },
   ];
 
   return (

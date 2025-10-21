@@ -71,7 +71,7 @@ const ClassicTemplate = ({ data, accentColor }) => {
 
                     <div className="space-y-4">
                         {data.experience.map((exp, index) => (
-                            <div key={index} className="border-l-3 pl-4" style={{ borderColor: accentColor }}>
+                            <div key={index} className="border-l-4 pl-4" style={{ borderColor: accentColor }}>
                                 <div className="flex justify-between items-start mb-2">
                                     <div>
                                         <h3 className="font-semibold text-gray-900">{exp.position}</h3>
@@ -101,7 +101,7 @@ const ClassicTemplate = ({ data, accentColor }) => {
 
                     <ul className="space-y-3 ">
                         {data.project.map((proj, index) => (
-                            <div key={index} className="flex justify-between items-start border-l-3 border-gray-300 pl-6">
+                            <div key={index} className="flex justify-between items-start border-l-4 border-gray-300 pl-6">
                                 <div>
                                     <li className="font-semibold text-gray-800 ">{proj.name}</li>
                                     <p className="text-gray-600">{proj.description}</p>
