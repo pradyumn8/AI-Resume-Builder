@@ -157,7 +157,7 @@ const ResumeBuilder = () => {
               {/* -------buttons-------- */}
                 {resumeData.public && (
                   <button onClick={handleShare} className='flex items-center p-2 px-4 gap-2 text-xs bg-gradient-to-br from-blue-100 to-blue-200 text-blue-600 rounded-lg ring-blue-300 hover:ring transition-colors'>
-                    <Share2Icon className='size-4' />
+                    <Share2Icon className='size-4' />Share
                   </button>
                 )}
                 <button onClick={changeResumeVisibility} className='flex items-center p-2 px-4 gap-2 text-xs bg-gradient-to-br from-purple-100 to-purple-200 text-purple-600 rounded-lg ring-purple-300 hover:ring transition-colors'>
