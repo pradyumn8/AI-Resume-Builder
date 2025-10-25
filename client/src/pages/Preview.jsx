@@ -22,10 +22,10 @@ const Preview = () => {
       const {data} = await api.get('/api/resumes/public/'+resumeId)
       setResumeData(data.resume)
     } catch (error) {
-      console.log(error.messaage);
+      console.log(error.message);
     }
     finally{
-      setLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -35,7 +35,7 @@ const Preview = () => {
   return resumeData ? (
     <div className='bg-slate-100'>
       <div className='max-w-3xl mx-auto py-10'>
-        <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accentColor} classes='py-4 bg-white'/>
+        <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} classes='py-4 bg-white'/>
       </div>
     </div>
   ) : (

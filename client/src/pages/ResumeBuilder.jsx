@@ -29,7 +29,7 @@ const ResumeBuilder = () => {
     education: [],
     project: [],
     skills: [],
-    template: [],
+    template: 'modern', 
     accent_color: "#3B82F6",
     public: false,
   })
@@ -76,11 +76,13 @@ const ResumeBuilder = () => {
   const changeResumeVisibility = async () => {
     // setResumeData({ ...resumeData, public: !resumeData.public })
     try {
+       // ensure the latest template/accent are persisted
+    await saveResume();
       const formData = new FormData()
       formData.append('resumeId',resumeId)
       formData.append('resumeData',JSON.stringify({public:!resumeData.public}))
 
-        const { data } = await api.put('/api/resumes/update/' ,formData, {
+        const { data } = await api.put('/api/resumes/update' ,formData, {
         headers: {
           Authorization: token }})
 
