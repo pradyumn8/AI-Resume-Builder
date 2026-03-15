@@ -9,11 +9,11 @@ const Hero = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const logos = [
-        'https://saasly.prebuiltui.com/assets/companies-logo/instagram.svg',
-        'https://saasly.prebuiltui.com/assets/companies-logo/framer.svg',
-        'https://saasly.prebuiltui.com/assets/companies-logo/microsoft.svg',
-        'https://saasly.prebuiltui.com/assets/companies-logo/huawei.svg',
-        'https://saasly.prebuiltui.com/assets/companies-logo/walmart.svg',
+        'https://cdn.simpleicons.org/instagram/E4405F',
+        'https://cdn.simpleicons.org/framer/0055FF',
+        'https://cdn.simpleicons.org/microsoft/5E5E5E',
+        'https://cdn.simpleicons.org/huawei/FF0000',
+        'https://cdn.simpleicons.org/walmart/0071CE',
     ]
 
     return (

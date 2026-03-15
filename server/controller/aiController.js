@@ -65,60 +65,59 @@ export const enchanceJobDescription = async (req, res) => {
 export const uploadResume = async (req, res) => {
     try {
 
-        const {resumeText, title}=req.body;
+        const { resumeText, title } = req.body;
         const userId = req.userId;
 
-        if(!resumeText){
+        if (!resumeText) {
             return res.status(400).json({ message: 'Missing required fields' })
         }
 
         const systemPrompt = "You are an expert AI Agent to extract data from resume."
 
-        const userPrompt=`extract data from this resume: 
+        const userPrompt = `extract data from this resume: 
         ${resumeText}
         
         Provide data in the following JSON format with no additional text before or after:
         
         {
-       
-            professional_summary: { type: String, default: '' },
-            skills: [{ type: String }],
-            personal_info: {
-                image: { type: String, default: '' },
-                full_name: { type: String, default: '' },
-                profession: { type: String, default: '' },
-                email: { type: String, default: '' },
-                phone: { type: String, default: '' },
-                location: { type: String, default: '' },
-                linkedin: { type: String, default: '' },
-                website: { type: String, default: '' },
+            "professional_summary": "Summary text here",
+            "skills": ["Skill 1", "Skill 2"],
+            "personal_info": {
+                "image": "",
+                "full_name": "John Doe",
+                "profession": "Software Engineer",
+                "email": "john@example.com",
+                "phone": "+1 234 567 8900",
+                "location": "City, Country",
+                "linkedin": "https://linkedin.com/in/johndoe",
+                "website": "https://johndoe.com"
             },
-            experience: [
+            "experience": [
                 {
-                    company: { type: String },
-                    position: { type: String },
-                    start_date: { type: String },
-                    end_date: { type: String },
-                    description: { type: String },
-                    is_current: { type: String },
+                    "company": "Company Name",
+                    "position": "Job Title",
+                    "start_date": "Jan 2020",
+                    "end_date": "Present",
+                    "description": "Job description here",
+                    "is_current": "true"
                 }
             ],
-            project: [
+            "project": [
                 {
-                    name: { type: String },
-                    type: { type: String },
-                    description: { type: String },
+                    "name": "Project Name",
+                    "type": "Personal/Academic",
+                    "description": "Project description"
                 }
             ],
-            education: [
+            "education": [
                 {
-                    institution: { type: String },
-                    degree: { type: String },
-                    field: { type: String },
-                    graduation_date: { type: String },
-                    gpa: { type: String },
+                    "institution": "University Name",
+                    "degree": "Bachelor of Science",
+                    "field": "Computer Science",
+                    "graduation_date": "May 2019",
+                    "gpa": "3.8"
                 }
-            ],
+            ]
         }
         `;
 
@@ -136,13 +135,13 @@ export const uploadResume = async (req, res) => {
                     content: userPrompt,
                 }
             ],
-            response_format: {type: 'json_object'}
+            response_format: { type: 'json_object' }
         })
         const extractedData = response.choices[0].message.content;
         const parsedData = JSON.parse(extractedData)
-        const newResume = await Resume.create({userId, title, ...parsedData})
-        
-        res.json({resumeId:newResume._id})
+        const newResume = await Resume.create({ userId, title, ...parsedData })
+
+        res.json({ resumeId: newResume._id })
     } catch (error) {
         return res.status(400).json({ message: error.message })
     }

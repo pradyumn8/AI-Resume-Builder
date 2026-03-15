@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
 import api from '../configs/api'
 import pdfToText from 'react-pdftotext';
-import { setLoading } from '../app/features/authSlice'
 
 const Dashboard = () => {
 
@@ -20,7 +19,7 @@ const Dashboard = () => {
   const [resume, setResume] = useState(null)
   const [editResumeId, setEditResumeId] = useState('')
 
-  const [isLoading, setIsLoading] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate();
 
   const loadAllResumes = async () => {
@@ -70,11 +69,11 @@ const Dashboard = () => {
       setTitle('')
       setResume(null)
       setShowUploadResumes(false)
-      navigate(`/api/builder/${data.resumeId}`)
+      navigate(`/app/builder/${data.resumeId}`)
     } catch (error) {
       toast.error(error?.response?.data?.message || error.message)
     }
-    setLoading(false)
+    setIsLoading(false)
     // setShowUploadResumes(false)
     // navigate(`/app/builder/res123`)
   }
@@ -98,7 +97,7 @@ const Dashboard = () => {
     try {
       const confirm = window.confirm("Are you sure you want to delete this resume?")
       if (confirm) {
-        const { data } = await api.delete(`/api/resume/delete/${resumeId}`, {
+        const { data } = await api.delete(`/api/resumes/delete/${resumeId}`, {
           headers: {
             Authorization: token
           }

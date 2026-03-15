@@ -136,7 +136,7 @@ const ExperienceForm = ({ data, onChange }) => {
                     type="button"
                     className="flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded disabled:opacity-50"
                   onClick={() => generateDescription(index)}
-                  disabled={generatingIndex === index || !experience.position || !experience.company}
+                  disabled={generatingIndex === index || !exp.position || !exp.company}
                   >
                     {generatingIndex === index ?(
                       <Loader2 className='w-3 h-3 animate-spin'/>

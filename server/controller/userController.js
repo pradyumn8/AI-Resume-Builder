@@ -12,11 +12,23 @@ const generateToken = (userId) => {
 // POST: /api/users/register
 export const registerUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, password } = req.body;
+        const email = req.body.email?.trim().toLowerCase();
 
         // check if required fields are present
         if (!name || !email || !password) {
             return res.status(400).json({ message: 'Missing Required fields' })
+        }
+
+        // validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ message: 'Invalid email format' })
+        }
+
+        // validate password strength
+        if (password.length < 6) {
+            return res.status(400).json({ message: 'Password must be at least 6 characters' })
         }
 
         // check if user already exists
@@ -27,7 +39,7 @@ export const registerUser = async (req, res) => {
         // create new user
         const hashedPassword = await bcrypt.hash(password, 10)
         const newUser = await User.create({
-            name, email, password: hashedPassword
+            name: name.trim(), email, password: hashedPassword
         })
 
         // return success Message
@@ -45,8 +57,12 @@ export const registerUser = async (req, res) => {
 // POST: /api/users/login
 export const loginUser = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const email = req.body.email?.trim().toLowerCase();
+        const { password } = req.body;
 
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' })
+        }
 
         // check if user exists
         const user = await User.findOne({ email })
@@ -55,7 +71,8 @@ export const loginUser = async (req, res) => {
         }
 
         // check if password is correct
-        if (!user.comparePassword(password)) {
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
             return res.status(400).json({ message: 'Invalid email or password' })
         }
 

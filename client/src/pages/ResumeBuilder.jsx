@@ -29,17 +29,14 @@ const ResumeBuilder = () => {
     education: [],
     project: [],
     skills: [],
-    template: 'modern', 
+    template: 'classic',
     accent_color: "#3B82F6",
     public: false,
   })
 
+  const [notFound, setNotFound] = useState(false);
+
   const loadExistingResume = async () => {
-    // const resume = dummyResumeData.find(resume => resume._id === resumeId);
-    // if (resume) {
-    //   setResumeData(resume);
-    //   document.title = resume.title
-    // }
     try {
       const { data } = await api.get('/api/resumes/get/' + resumeId, {
         headers: {
@@ -52,6 +49,10 @@ const ResumeBuilder = () => {
       }
     } catch (error) {
       console.log(error.message);
+      if (error?.response?.status === 404) {
+        setNotFound(true);
+      }
+      toast.error(error?.response?.data?.message || 'Failed to load resume');
     }
   }
 
@@ -76,20 +77,20 @@ const ResumeBuilder = () => {
   const changeResumeVisibility = async () => {
     // setResumeData({ ...resumeData, public: !resumeData.public })
     try {
-       // ensure the latest template/accent are persisted
-    await saveResume();
       const formData = new FormData()
-      formData.append('resumeId',resumeId)
-      formData.append('resumeData',JSON.stringify({public:!resumeData.public}))
+      formData.append('resumeId', resumeId)
+      formData.append('resumeData', JSON.stringify({ public: !resumeData.public }))
 
-        const { data } = await api.put('/api/resumes/update' ,formData, {
+      const { data } = await api.put('/api/resumes/update/', formData, {
         headers: {
-          Authorization: token }})
+          Authorization: token
+        }
+      })
 
-          setResumeData({...resumeData,public:!resumeData.public})
-          toast.success(data.message)
+      setResumeData({ ...resumeData, public: !resumeData.public })
+      toast.success(data.message)
     } catch (error) {
-    console.error("Error saving resume:",error) 
+      console.error("Error saving resume:", error)
     }
   }
 
@@ -107,34 +108,59 @@ const ResumeBuilder = () => {
     }
   }
 
-  const downloadResume = () => {
-    window.print();
-  }
+  // const downloadResume = () => {
+  //   window.print();
+  // }
+  // ResumeBuilder.jsx
+  const downloadResume = async () => {
+    // Wait for fonts (optional but helps layout stability)
+    try { await document.fonts?.ready; } catch { }
+
+    // Ensure the latest React paint is committed
+    requestAnimationFrame(() => {
+      // a second frame guarantees style/layout
+      requestAnimationFrame(() => window.print());
+    });
+  };
 
   const saveResume = async () => {
     try {
       let updatedResumeData = structuredClone(resumeData)
 
       // resume image from updatedResumeData
-      if(typeof resumeData.personal_info.image==='object'){
+      if (typeof resumeData.personal_info.image === 'object') {
         delete updatedResumeData.personal_info.image
       }
       const formData = new FormData();
-      formData.append("resumeId",resumeId)
-      formData.append("resumeData",JSON.stringify(updatedResumeData))
-      removeBackground && formData.append("removeBackground","yes");
+      formData.append("resumeId", resumeId)
+      formData.append("resumeData", JSON.stringify(updatedResumeData))
+      removeBackground && formData.append("removeBackground", "yes");
       typeof resumeData.personal_info.image === 'object' && formData.append('image',
         resumeData.personal_info.image)
 
-        const {data} = await api.put('/api/resumes/update', formData,{headers:{
+      const { data } = await api.put('/api/resumes/update', formData, {
+        headers: {
           Authorization: token
-        }})
-        setResumeData(data.resume)
-        toast.success(data.message)
+        }
+      })
+      setResumeData(data.resume)
+      toast.success(data.message)
     } catch (error) {
-      console.error("Error saving resume:",error)
+      console.error("Error saving resume:", error)
     }
   }
+  if (notFound) {
+    return (
+      <div className='flex flex-col items-center justify-center min-h-screen bg-gray-50'>
+        <p className='text-xl text-gray-600 mb-4'>Resume not found</p>
+        <p className='text-sm text-gray-400 mb-6'>This resume may have been deleted or doesn't belong to your account.</p>
+        <Link to='/app' className='bg-green-500 hover:bg-green-600 text-white rounded-full px-6 py-2 flex items-center gap-2 transition-colors'>
+          <ArrowLeftIcon className='size-4' /> Back to Dashboard
+        </Link>
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className='max-w-7xl mx-auto px-4 py-6'>
@@ -198,8 +224,8 @@ const ResumeBuilder = () => {
                     onChange={(data) => setResumeData(prev => ({ ...prev, skills: data }))} />
                 )}
               </div>
-              <button onClick={()=> {toast.promise(saveResume,{loading:'Saving...'})}} 
-              className='bg-gradient-to-r from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400  transition-all rounded-md px-6 py-2 mt-6 text-sm'>
+              <button onClick={() => { toast.promise(saveResume(), { loading: 'Saving...' }) }}
+                className='bg-gradient-to-r from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400  transition-all rounded-md px-6 py-2 mt-6 text-sm'>
                 Save Changes
               </button>
               <div>
